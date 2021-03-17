@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using DepsWebApp.Authentication;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
+using DepsWebApp.Contexts;
 
 namespace DepsWebApp
 {
@@ -25,7 +27,10 @@ namespace DepsWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IAccountService, AccountServiceInMemory>();
+            // Add migrations and database context
+            services.AddHostedService<MigrationService>();
+            services.AddDbContext<AccountManagerContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("AccountManagerContext")));
 
             // Add options
             services
@@ -41,6 +46,8 @@ namespace DepsWebApp
 
             // Add application services
             services.AddScoped<IRatesService, RatesService>();
+            services.AddTransient<IAccountService, AccountServiceInDatabase>();
+            services.AddTransient<IDatabaseService, DatabaseService>();
 
             // Add NbuClient as Transient
             services.AddHttpClient<IRatesProviderClient, NbuClient>()

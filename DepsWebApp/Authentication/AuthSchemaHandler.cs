@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DepsWebApp.Authentication
@@ -39,7 +40,7 @@ namespace DepsWebApp.Authentication
             try
             {
                 var key = BaseConverter.FromBase64String(authKey);
-                accountId = await _accountService.FindAsync(key);
+                accountId = await _accountService.FindAsync(key, new CancellationToken());
                 if (accountId == null) throw new Exception();
             }
             catch (Exception)

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using DepsWebApp.Models;
 using DepsWebApp.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -34,11 +35,12 @@ namespace DepsWebApp.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
-        public async Task<ActionResult<string>> Register([FromBody]AuthRequest request)
+        public async Task<ActionResult<string>> Register([FromBody]AuthRequest request, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            
-            var baseKey = await _accountService.RegisterAsync(request.Login, request.Password);
+
+            var account = new Account { Login = request.Login, Password = request.Password };
+            var baseKey = await _accountService.RegisterAsync(account, cancellationToken);
             if (string.IsNullOrEmpty(baseKey)) return BadRequest("User alredy exists");
             return baseKey;
         }

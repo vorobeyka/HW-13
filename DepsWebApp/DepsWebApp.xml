@@ -71,14 +71,6 @@
             Account password.
             </summary>
         </member>
-        <member name="M:DepsWebApp.Models.Account.#ctor(System.String,System.String,System.String)">
-            <summary>
-            Constructor
-            </summary>
-            <param name="id">Set <see cref="P:DepsWebApp.Models.Account.Id"/>.</param>
-            <param name="login">Set <see cref="P:DepsWebApp.Models.Account.Login"/>.</param>
-            <param name="password">Set <see cref="P:DepsWebApp.Models.Account.Password"/>.</param>
-        </member>
         <member name="T:DepsWebApp.Models.CurrencyRate">
             <summary>
             Currency rate model.
@@ -148,7 +140,7 @@
             </summary>
             <param name="accountService">Set <see cref="F:DepsWebApp.Controllers.AuthController._accountService"/></param>
         </member>
-        <member name="M:DepsWebApp.Controllers.AuthController.Register(DepsWebApp.Models.AuthRequest)">
+        <member name="M:DepsWebApp.Controllers.AuthController.Register(DepsWebApp.Models.AuthRequest,System.Threading.CancellationToken)">
             <summary>
             Register account in memory.
             </summary>
@@ -200,15 +192,15 @@
             Default rates cache lifetime.
             </summary>
         </member>
-        <member name="T:DepsWebApp.Services.AccountServiceInMemory">
+        <member name="T:DepsWebApp.Services.AccountServiceInDatabase">
             <summary>
             Implements <see cref="T:DepsWebApp.Services.IAccountService"/>.
             </summary>
         </member>
-        <member name="M:DepsWebApp.Services.AccountServiceInMemory.RegisterAsync(System.String,System.String)">
+        <member name="M:DepsWebApp.Services.AccountServiceInDatabase.RegisterAsync(DepsWebApp.Models.Account,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
-        <member name="M:DepsWebApp.Services.AccountServiceInMemory.FindAsync(System.String)">
+        <member name="M:DepsWebApp.Services.AccountServiceInDatabase.FindAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
         <member name="T:DepsWebApp.Services.IAccountService">
@@ -216,20 +208,22 @@
             Account service abstraction.
             </summary>
         </member>
-        <member name="M:DepsWebApp.Services.IAccountService.RegisterAsync(System.String,System.String)">
+        <member name="M:DepsWebApp.Services.IAccountService.RegisterAsync(DepsWebApp.Models.Account,System.Threading.CancellationToken)">
             <summary>
             Registers account and assigns unique account id.
             </summary>
             <param name="login">Account login.</param>
             <param name="password">Account password.</param>
+            <param name="cancellationToken">Cancellation token.</param>
             <returns>Returns id of the created account or <c>null</c> if login already existed.</returns>
             <exception cref="T:System.ArgumentNullException">Throws when one of the arguments is null.</exception>
         </member>
-        <member name="M:DepsWebApp.Services.IAccountService.FindAsync(System.String)">
+        <member name="M:DepsWebApp.Services.IAccountService.FindAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Find account and returns its id.
             </summary>
             <param name="encodedAccount">Account encoded login and password.</param>
+            <param name="cancellationToken">Cancellation token.</param>
             <returns>Returns account id or <c>null</c> if user wasn't found or password is invalid.</returns>
             <exception cref="T:System.ArgumentNullException">Throws when argument is null.</exception>
         </member>
