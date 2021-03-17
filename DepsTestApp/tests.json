@@ -1,0 +1,92 @@
+[
+  {
+    "expectedStatusCode": 200,
+    "requestString": "auth/register",
+    "headerName": "Authorization",
+    "account": {
+      "login": "loginABC",
+      "password": "somepassword"
+    },
+    "requestMethod": "POST"
+  },
+  {
+    "expectedStatusCode": 200,
+    "requestString": "auth/register",
+    "headerName": "Authorization",
+    "account": {
+      "login": "loginabc",
+      "password": "123123"
+    },
+    "requestMethod": "POST"
+  },
+  {
+    "expectedStatusCode": 400,
+    "requestString": "auth/register",
+    "headerName": "Authorization",
+    "account": {
+      "login": "loginabc",
+      "password": "123123"
+    },
+    "requestMethod": "POST"
+  },
+  {
+    "expectedStatusCode": 400,
+    "requestString": "auth/register",
+    "headerName": "Authorization",
+    "account": {
+      "login": "log",
+      "password": "123"
+    },
+    "requestMethod": "POST"
+  },
+  {
+    "expectedStatusCode": 200,
+    "requestString": "rates/eur/uah?amount=100",
+    "headerName": "Authorization",
+    "account": {
+      "login": "loginABC",
+      "password": "somepassword"
+    },
+    "requestMethod": "GET"
+  },
+  {
+    "expectedStatusCode": 200,
+    "requestString": "rates/usd/uah?amount=10",
+    "headerName": "Authorization",
+    "account": {
+      "login": "loginabc",
+      "password": "123123"
+    },
+    "requestMethod": "GET"
+  },
+  {
+    "expectedStatusCode": 401,
+    "requestString": "rates/usd/sdf?amount=10",
+    "headerName": "Authorization",
+    "account": {
+      "login": "aaaaaaaa",
+      "password": "123123"
+    },
+    "requestMethod": "GET"
+  },
+  {
+    "expectedStatusCode": 401,
+    "requestString": "rates/usd/sdf?amount=10",
+    "headerName": "Authorization",
+    "account": {
+      "login": "bbbbbbbbb",
+      "password": "123123"
+    },
+    "requestMethod": "GET"
+  },
+  {
+    "expectedStatusCode": 400,
+    "requestString": "rates/usd/sdf?amount=10",
+    "headerName": "Authorization",
+    "account": {
+      "login": "loginabc",
+      "password": "123123"
+    },
+    "requestMethod": "GET"
+  }
+]
