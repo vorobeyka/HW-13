@@ -1,4 +1,5 @@
 ﻿using DepsWebApp.Converters;
+using DepsWebApp.Models;
 using DepsWebApp.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -35,13 +36,12 @@ namespace DepsWebApp.Authentication
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             if (!TryGetKeyFromRequest(Request, out var authKey)) return AuthenticateResult.NoResult();
-            string accountId;
 
             try
             {
                 var key = BaseConverter.FromBase64String(authKey);
-                accountId = await _accountService.FindAsync(key, new CancellationToken());
-                if (accountId == null) throw new Exception();
+                var account = await _accountService.FindAsync(key, new CancellationToken());
+                if (account == null) throw new Exception();
             }
             catch (Exception)
             {
@@ -50,7 +50,7 @@ namespace DepsWebApp.Authentication
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, accountId),
+                new Claim(AuthSchema.Type, AuthSchema.Name),
             };
 
             var claimsId = new ClaimsIdentity(claims, "ApplicationCookie",
